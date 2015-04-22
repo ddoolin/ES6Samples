@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "Classes"
+date:   2015-04-17 12:56:45
+categories: functions
+---
+<div class="sample-area">
+  <div class="copy">
+    <h1>Classes</h1>
+
+{% markdown %}
+Classes were added in ES6 to ease JavaScript's prototypical inheritance,
+and support typical object-oriented concepts such as inheritance, super
+calls, instance & static methods, and constructors.
+
+On line 1, we define a `Vehicle` class using the `class` keyword. Using the required
+naming convention of `constructor`, a constructor for our class is defined on lines 2-5,
+where we take a single argument passed to set the `kind` instance property, as well as
+a default `position` property.
+
+To define an instance method, we simply type the method signature of a `move`
+method, setting the `position` property with the single argument.
+{% endmarkdown %}
+
+  </div>
+  <div class="code">
+
+{% highlight javascript linenos %}
+class Vehicle {
+  constructor (kind) {
+    this.kind = kind;
+    this.position = [0, 0, 0];
+  }
+
+  move(position) {
+    this.position = position;
+  }
+}
+{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+
+{% markdown %}
+Line 1 defines a `Car` class that extends the `Vehicle` class. Using the same
+constructor format, we can call the parent class' constructor using `super()`, passing
+in any arguments (in this case, the kind of vehicle).
+
+Static methods can be defined by prepending the method signature with the
+`static` keyword, as on line 8.
+
+To override a parent class' method, define the method as you would normally. The
+parent's overriden method can be called using `super.methodName()`, as on line 13,
+and this even works for overriden static methods.
+
+In order to create an instance of our class, it must be called using the `new`
+keyword. On line 17, we create a new car, passing it a name of "Mini Cooper" and
+calling it's move method, which will call `Vehicle#move`.
+{% endmarkdown %}
+
+  </div>
+  <div class="code">
+
+{% highlight javascript linenos %}
+class Car extends Vehicle {
+  constructor(name, plateNumber) {
+    super('Car');
+    this.name = name;
+    this.plateNumber = plateNumber;
+  }
+
+  static transportType() {
+    return 'ground';
+  }
+
+  move(x, y) {
+    super.move([x, y, 0]); // Cars move along a 2D plane
+  }
+}
+
+var miniCooper = new Car('Mini Cooper');
+var ford = Car('Ford'); // => TypeError!
+
+miniCooper.move(3, 5); // => this.position === [3, 5, 0];
+{% endhighlight %}
+
+  </div>
+</div>

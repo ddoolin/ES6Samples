@@ -1,0 +1,16 @@
+# Site settings
+title: ES6Samples
+description: > # this means to ignore newlines until "baseurl:"
+  An archive of idiomatic, curated JavaScript samples used to
+  demonstrate the changes brought by sixth version of the ECMAScript
+  standard.
+baseurl: "/" # the subpath of your site, e.g. /blog/
+url: "http://es6samples.com" # the base hostname & protocol for your site
+permalink: /:categories/:title/
+excerpt_separator: ""
+
+# Build settings
+markdown: kramdown
+
+jquery:
+  version: 2.1.3

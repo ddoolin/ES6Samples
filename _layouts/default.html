@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    {% include sidebar.html %}
+
+    <div class="background">
+      <div class="actual">
+      </div>
+    </div>
+
+    <div class="page-content">
+      {{ content }}
+    </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/{{ site.jquery.version }}/jquery.min.js"></script>
+  <script src="{{ 'assets/js/site.js' | prepend: site.baseurl }}"></script>
+  </body>
+
+</html>

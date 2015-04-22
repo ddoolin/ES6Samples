@@ -1,0 +1,49 @@
+---
+layout: post
+title:  "Rest + Spread"
+date:   2015-04-18 10:55:00
+categories: syntax
+---
+<div class="sample-area">
+  <div class="copy">
+    <h1>Rest + Spread</h1>
+    <p>
+      <i>Rest parameters</i> allows you to bind trailing paramaters into an array.
+      To specify parameters as rest parameters, prepend the argument with three dots,
+      as in <b>line 1</b>. Rest parameters are <em>not</em> included in a
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/length">function's `length` property</a>,
+      illustrated on <b>line 6</b>.
+    </p>
+  </div>
+  <div class="code">
+{% highlight javascript linenos %}
+function f (x, ...y) {
+  return x * y.length; // y is an array
+}
+
+f(3, "hello", true) // => 6
+f.length // => 1
+{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    <p>
+      The <i>spread operator</i> turns an array into consecutive arguments in a function call.
+      Each element in the passed array becomes a separate argument to the function.
+      Spread operators also work with strings, as in <b>line 6</b>, and other iterable objects.
+    </p>
+  </div>
+  <div class="code">
+{% highlight javascript linenos %}
+function f (x, y, z) {
+  return x + y + z;
+}
+
+f(...[1,2,3]) // => 6
+f(..."abc") // => "a" + "b" + "c" ==== "abc"
+f.length // => 3
+{% endhighlight %}
+  </div>
+</div>
