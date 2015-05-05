@@ -9,4 +9,8 @@ $(function () {
     // Scroll to the nav item
     $('.site-sidebar').get(0).scrollTop = activeNavItem.offset().top - 200
   }
+
+  $('#post_select').change(function (event) {
+    location.href = location.origin + event.target.value;
+  });
 });

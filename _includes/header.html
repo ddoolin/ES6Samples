@@ -1,0 +1,21 @@
+<header class="site-header">
+  <a href="/" class="site-logo">ES6<span>Samples</span></a>
+  <select id="post_select" value="{{ page.url }}">
+    <optgroup label="introduction">
+      <option value="/">Introduction</option>
+    </optgroup>
+    {% for category in site.categories | sort %}
+    <optgroup label="{{ category | first | capitalize }}">
+      {% for posts in category %}
+      {% if forloop.index0 != 0 %}
+        {% for post in posts %}
+        <option value="{{ post.url }}" {% if page.url == post.url %} selected="true" {% endif %}>
+          {{ post.title }}
+        </option>
+        {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </optgroup>
+    {% endfor %}
+  </select>
+</header>

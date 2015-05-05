@@ -11,28 +11,13 @@
   border-right: 1px solid #EBEEF0;
   background-color: #F7F7F7;
 
-  .logo {
+  @include media-query($md) {
+    display: none;
+  }
+
+  .site-logo {
     display: block;
-    height: 46px;
-    margin: 0;
-    padding: 10px 15px;
     border-bottom: 1px solid #EBEEF0;
-    text-transform: uppercase;
-    color: #E0CB1B;
-    font-size: 20px;
-    font-weight: 100;
-    cursor: pointer;
-    @extend %clearfix;
-
-    &:hover {
-      text-decoration: none;
-      opacity: 0.7;
-    }
-
-    > span {
-      color: black;
-      font-weight: bold;
-    }
   }
 
   .github {
@@ -79,6 +64,20 @@
 }
 
 /**
+* Site header (small)
+*/
+.site-header {
+  display: none;
+  padding: 11px;
+  height: $site-header-height;
+  border-bottom: 1px solid #EEE;
+
+  @include media-query($md) {
+    display: block;
+  }
+}
+
+/**
 * Code background
 */
 .background {
@@ -88,6 +87,15 @@
   right: 0;
   bottom: 0;
   left: 221px;
+
+  @include media-query($sm) {
+    display: none;
+  }
+
+  @include media-query($md) {
+    left: 0;
+    margin-top: $site-header-height;
+  }
 
   .actual {
     position: absolute;
@@ -150,7 +158,7 @@
   width:         calc(45% - (#{$spacing-unit} / 2));
 }
 
-@include media-query($on-laptop) {
+@include media-query($sm) {
   .footer-col-1,
   .footer-col-2 {
     width: -webkit-calc(50% - (#{$spacing-unit} / 2));
@@ -163,7 +171,7 @@
   }
 }
 
-@include media-query($on-palm) {
+@include media-query($xs) {
   .footer-col {
     float: none;
     width: -webkit-calc(100% - (#{$spacing-unit} / 2));
@@ -185,6 +193,11 @@
   left: 221px;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  @include media-query($md) {
+    left: 0;
+    margin-top: $site-header-height;
+  }
 }
 
 .page-heading {
@@ -224,7 +237,7 @@
   letter-spacing: -1px;
   line-height: 1;
 
-  @include media-query($on-laptop) {
+  @include media-query($sm) {
     font-size: 36px;
   }
 }
@@ -241,6 +254,12 @@
       float: left;
       padding: 50px 40px 20px 40px;
 
+      @include media-query($sm) {
+        width: 100%;
+
+        padding: 40px;
+      }
+
       p {
         font-size: 15px;
       }
@@ -248,8 +267,18 @@
 
     .code {
       margin-left: 45%;
-      padding-top: 20px;
+      padding: 40px 0;
       background-color: #2D3134;
+
+      @include media-query($sm) {
+        display: inline-block;
+        width: 100%;
+        margin-left: 0;
+
+        .highlight {
+          margin-bottom: 0;
+        }
+      }
 
       .highlight {
         padding: 20px 40px;
@@ -257,6 +286,10 @@
 
         pre {
           margin: 0;
+
+          code {
+            word-wrap: break-word;
+          }
         }
 
         pre, code {
@@ -268,13 +301,17 @@
 
     &:first-child .code {
       padding-top: 70px;
+
+      @include media-query($sm) {
+        padding-top: 40px;
+      }
     }
   }
 
   h2 {
     font-size: 32px;
 
-    @include media-query($on-laptop) {
+    @include media-query($sm) {
       font-size: 28px;
     }
   }
@@ -282,7 +319,7 @@
   h3 {
     font-size: 26px;
 
-    @include media-query($on-laptop) {
+    @include media-query($sm) {
       font-size: 22px;
     }
   }
@@ -290,7 +327,7 @@
   h4 {
     font-size: 20px;
 
-    @include media-query($on-laptop) {
+    @include media-query($sm) {
       font-size: 18px;
     }
   }

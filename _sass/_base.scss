@@ -166,7 +166,7 @@ pre {
   padding-left: $spacing-unit;
   @extend %clearfix;
 
-  @include media-query($on-laptop) {
+  @include media-query($sm) {
     max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit}));
     max-width:         calc(#{$content-width} - (#{$spacing-unit}));
     padding-right: $spacing-unit / 2;
@@ -202,5 +202,35 @@ pre {
     path {
       fill: $grey-color;
     }
+  }
+}
+
+
+
+/**
+* Site logo
+*/
+.site-logo {
+  height: 46px;
+  margin: 0;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  color: $js-yellow-color;
+  font-size: 20px;
+  font-weight: 100;
+  cursor: pointer;
+
+  &:visited {
+    color: $js-yellow-color;
+  }
+
+  &:hover {
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  > span {
+    color: black;
+    font-weight: bold;
   }
 }
