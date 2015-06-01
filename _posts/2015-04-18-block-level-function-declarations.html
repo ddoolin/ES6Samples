@@ -7,8 +7,23 @@ categories: bindings
 <div class="sample-area">
   <div class="copy">
     <h1>Block-level Functions</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+    {% markdown %}
+<a href="https://github.com/JustinDrake/node-es6-examples">https://github.com/JustinDrake/node-es6-examples</a> <br/>
+On a more esoteric note, `ES6` is fixing a long standing issue with block scope function definitions. In ES6 function declarations are block-scoped.
+
+In particular, ES6 supports `block-level functions`, so the example code should produce the error “doSomething is not defined”.
+{% endmarkdown %}
   </div>
   <div class="code">
+  {% highlight javascript linenos %}
+{
+  function doSomething(){
+    console.log("In doSomething");
+  }
+}
+ 
+doSomething();  //doSomething is not defined
+{% endhighlight %}
+
   </div>
 </div>
