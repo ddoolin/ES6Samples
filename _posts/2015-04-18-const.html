@@ -7,8 +7,32 @@ categories: bindings
 <div class="sample-area">
   <div class="copy">
     <h1>Const</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+	
+{% markdown %}
+A sibling to `let` is `const`. let and const behave similarly in the sense that both are `block scoped`, but with const, the values are `read-only` and cannot be re-declared later on. As the name implies, const has a constant binding and thus replacing its value has no effect. 
+
+const must have an `initialiser`, unlike let and var declarations.
+
+A constant cannot share its name with a function or a variable in the same scope.
+
+The major use case for const is to safeguard important constants from being overwritten accidentally.
+
+Note that const does not affect whether the value of a constant itself is `mutable` or not: If a constant refers to an object, it will always refer to that object, but the object itself can still be changed (if it is mutable).
+{% endmarkdown %}
   </div>
   <div class="code">
+  {% highlight javascript linenos %}
+const z; // SyntaxError: const declarations must have an initializer
+const y = 10; // y === 10
+y = 20; // SyntaxError: Assignment to constant variable
+// const also works on objects
+const obj = {};
+// Overwriting the object fails   
+obj = {}; // TypeError
+//However, object attributes are not protected, so the following statement is executed without problems
+obj.prop = 123;
+console.log(obj.prop); // 123
+
+{% endhighlight %}
   </div>
 </div>
