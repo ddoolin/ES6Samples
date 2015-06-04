@@ -7,8 +7,83 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>Array</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+	{% markdown %}
+`Arrays` have always been a core Data Structure inside of Java Script and `ES6` only adds to the capabilities. There are several new functions that have been added to Array instances to make it a lot easier to do certain things with arrays.
+	{% endmarkdown %}
   </div>
   <div class="code">
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+####Array Static Function
+**`Array.from(..)`** :
+
+The Array.from() method creates a new Array instance from an array-like or iterable object.
+
+`Syntax` : Array.from(*arrayLike[, mapFn[, thisArg]]*)
+
+Array.from()’s basic functionality is to convert two kinds of objects to arrays:
+
+- In JavaScript, there are objects that pretend to be arrays (or are `array-like`). Such objects are `arguments, NodeLists` (returned from `getElementsByClassName`, etc.), and `jQuery objects`. That means that while they have indexed access and a `length` property, they don’t have any of the `array methods` (forEach(), push, concat(), etc.).
+- Iterable objects, whose contents can be retrieved one element at a time. Arrays are iterable, as are ECMAScript’s new data structures [Map](http://es6samples.com/built-ins/map+weak-map/) and [Set](http://es6samples.com/built-ins/set+weak-set/).
+
+In both cases, the new ES6 Array.from() method can be a more understandable and graceful approach.
+
+On `line 9` the result of querySelectorAll() is not an array and does not have a `forEach()` method, which is why we need to convert it to an array `(line 10-12)` before we can use that method. This can be verified by looking at the logs in the following lines `(line 14-17)`.
+
+Array.from() has an optional parameter `mapFn`, which allows you to execute a map function on each element of the array (or subclass object) that is being created. More clearly, `Array.from(obj, mapFn, thisArg)` is the same as `Array.from(obj).map(mapFn, thisArg)`, except that it does not create an intermediate array. An [Arrow function](http://es6samples.com/functions/arrow-functions/) can also be used instead of mapFn.
+
+As with other array methods that take callbacks, Array.from() takes an optional `third argument` that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, this will be `undefined`.
+
+Array.from() ignores `holes` in `arrays`, it treats them as if they were `undefined` elements.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+// array-like objects
+var testFunction = function() {
+  console.log(arguments);
+  console.log(arguments.length);
+};  
+var uls = document.getElementsByTagName("ul")  // array-like collection
+
+// Array.from()
+var divs = document.querySelectorAll('div');
+Array.from(divs).forEach(function(node) {
+  console.log(node);
+});
+
+console.log(typeof(divs))                       // object
+console.log(typeof(Array.from(divs)))           // object
+console.log(Array.from(divs) instanceof Array)  // true
+console.log(divs instanceof Array)              // false
+
+// Map function - mapFn
+Array.from(divs, function(node) {
+   console.log(node);
+});
+
+// Arrow function instead of mapFn
+Array.from([1, 2, 3], x => x * x);              // [1, 4, 9]  
+
+  {% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+	{% markdown %}
+**`Array.of(..)`** :
+The Array.of() method creates a new Array instance from an array-like or iterable object.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+  
+  {% endhighlight %}
   </div>
 </div>
