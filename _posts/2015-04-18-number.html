@@ -128,7 +128,7 @@ console.log(Number.isNaN("NaN"));       // false
 <div class="sample-area">
   <div class="copy">
   {% markdown %}
-   A `Number` is a floating point number with a limited precision of `64 bits`, about `16 digits`. The largest integer number which can be represented by a JavaScript Number is `+/- 9007199254740992 (+/- 2^53)`. Because of the limited precision of floating point numbers, round-off errors can occur during calculations. 
+   A `Number` is a floating point number with a limited precision of `64 bits`, about `16 digits`. The largest integer number which can be represented by a JavaScript Number is <br/> `+/- 9007199254740992 (+/- 2^53)`. Because of the limited precision of floating point numbers, round-off errors can occur during calculations. 
    
   Especially with decimal fractions, rounding errors can become a problem in JavaScript. 
   The most (in)famous side effect of using binary floating-point numbers is:<br/>
@@ -138,7 +138,7 @@ console.log(Number.isNaN("NaN"));       // false
 Simply put, the representations for 0.1 and 0.2 in binary floating point are not exact, so when they are added, the result is not exactly 0.3. It’s really close, `0.30000000000000004`, but if your comparison fails, close is irrelevant.
 
 What if we did need to compare two numbers, like 0.1 + 0.2 to 0.3, knowing that the simple equality test fails?
-The most commonly accepted practice is to use a tiny `rounding error` value as the tolerance for comparison. This tiny value is often called `machine epsilon`, which is commonly `2^-52 (2.220446049250313e-16)` for the kind of numbers in JavaScript
+The most commonly accepted practice is to use a tiny `rounding error` value as the tolerance for comparison. This tiny value is often called `machine epsilon`, which is commonly `2^-52(2.220446049250313e-16)` for the kind of numbers in JavaScript
 
 As of `ES6`, `Number.EPSILON` is predefined with this tolerance value, so you’d want to use it. We can use this Number.EPSILON to compare two numbers for equality (within the rounding error tolerance).
 
@@ -168,8 +168,8 @@ numbersCloseEnoughToEqual(0.0000001, 0.0000002);  // false
 JavaScript numbers have only enough storage space to represent 53 bit signed integers. That is, integers i in the range −253 < i < 253 are safe.
 
 The two Number properties specifying the lower and upper bound of safe integers could be defined as follows:
-`Number.MAX_SAFE_INTEGER` - The highest integer that can “safely” be represented unambiguously in a JS number value: 2^53 - 1. <br/>
-`Number.MIN_SAFE_INTEGER` - The lowest integer that can “safely” be represented unambiguously in a JS number value: -(2^53 - 1) or (-2)^53 + 1.
+`Number.MAX_SAFE_INTEGER`: The highest integer that can safely be represented unambiguously in a JS number value: 2^53 - 1. <br/>
+`Number.MIN_SAFE_INTEGER`: The lowest integer that can safely be represented unambiguously in a JS number value:<br/> -(2^53 - 1) or (-2)^53 + 1.
 
 {% endmarkdown %}    
   </div>
