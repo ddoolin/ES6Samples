@@ -17,8 +17,8 @@ categories: extensions
 
 <div class="sample-area">
   <div class="copy">
+  <h4>Array Static Function</h4>
     {% markdown %}
-####Array Static Function
 **`Array.from(..)`** :
 
 The Array.from() method creates a new Array instance from an array-like or iterable object.
@@ -30,7 +30,7 @@ Array.from()’s basic functionality is to convert two kinds of objects to array
 - In JavaScript, there are objects that pretend to be arrays (or are `array-like`). Such objects are `arguments, NodeLists` (returned from `getElementsByClassName`, etc.), and `jQuery objects`. That means that while they have indexed access and a `length` property, they don’t have any of the `array methods` (forEach(), push, concat(), etc.).
 - Iterable objects, whose contents can be retrieved one element at a time. Arrays are iterable, as are ECMAScript’s new data structures [Map](http://es6samples.com/built-ins/map+weak-map/) and [Set](http://es6samples.com/built-ins/set+weak-set/).
 
-In both cases, the new ES6 Array.from() method can be a more understandable and graceful approach.
+In both the above cases, the new ES6 Array.from() method can be a more understandable and graceful approach.
 
 On `line 9` the result of querySelectorAll() is not an array and does not have a `forEach()` method, which is why we need to convert it to an array `(line 10-12)` before we can use that method. This can be verified by looking at the logs in the following lines `(line 14-17)`.
 
@@ -38,7 +38,9 @@ Array.from() has an optional parameter `mapFn`, which allows you to execute a ma
 
 As with other array methods that take callbacks, Array.from() takes an optional `third argument` that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, this will be `undefined`.
 
-Array.from() ignores `holes` in `arrays`, it treats them as if they were `undefined` elements.
+Array.from() ignores `holes` in `arrays`, it treats them as if they were `undefined` elements. Click the link for an awesome description on [Holes in Arrays](http://speakingjs.com/es5/ch18.html#array_holes).
+
+Another use case for Array.from() is to convert an array-like or iterable object to an instance of a `subclass` of Array. For example, if you create a subclass MyArray of Array and want to convert such an object to an instance of MyArray, you simply use `MyArray.from()`. The reason that that works is because constructors inherit from each other in ECMAScript 6 (a super-constructor is the prototype of its sub-constructors).
 	{% endmarkdown %}
   </div>
   <div class="code">
@@ -69,6 +71,13 @@ Array.from(divs, function(node) {
 // Arrow function instead of mapFn
 Array.from([1, 2, 3], x => x * x);              // [1, 4, 9]  
 
+// Holes in Arrays
+console.log(Array.from([1,,2]));        // [1, undefined, 2]
+
+// from() in subclasses of Array
+class MyArray extends Array { }
+let objMyArray = MyArray.from([1, 2, 3]);
+console.log(objMyArray instanceof MyArray);     // true
   {% endhighlight %}
   </div>
 </div>
@@ -77,9 +86,57 @@ Array.from([1, 2, 3], x => x * x);              // [1, 4, 9]
   <div class="copy">
 	{% markdown %}
 **`Array.of(..)`** :
-The Array.of() method creates a new Array instance from an array-like or iterable object.
+The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+
+`Syntax` : Array.of(*element0[, element1[, ...[, elementN]]]*)
+
+There’s a well known gotcha with the Array() constructor, which is that if there’s only one argument passed, and that argument is a number, instead of making an array of one element with that number value in it, it constructs an empty array with a length property equal to the number. This action produces the unfortunate and quirky empty slots behavior that’s reviled about JS arrays.
+`Array.of()` replaces Array() as the preferred function-form constructor for arrays, because Array.of(..) does not have that special single-number-argument case
 
 	{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+var a = new Array(3);
+console.log(a.length);                       // 3
+console.log(a[0]);                           // undefined
+
+var b = Array.of(3);
+console.log(b.length);                       // 1
+console.log(b[0]);                           // 3
+
+var c = Array.of(1, 2, 3);
+console.log(c.length);                       // 3
+console.log(c);                              // [1,2,3]
+
+console.log(Array.of(0, true, undefined, null, "Array.of"));  // [0, true, undefined, null, "Array.of"]
+  {% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  <h4>Array Prototype Function</h4>
+  {% markdown %}
+**`Array.find(..)`** :
+
+    {% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+  
+  {% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+**`Array.findIndex(..)`** :
+
+    {% endmarkdown %}
   </div>
   <div class="code">
   {% highlight javascript linenos %}
