@@ -17,13 +17,53 @@ categories: extensions
 
 <div class="sample-area">
   <div class="copy">
-  <h4>Array Static Function</h4>
+	<h4>Array Static Function</h4>
+	{% markdown %}
+**`Array.of(..)`** :
+The of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+
+`Syntax` : Array.of(*element0[, element1[, ...[, elementN]]]*)
+
+- `elementN` : Elements of which to create the array.
+
+There’s a well known gotcha with the Array() constructor, which is that if there’s only one argument passed, and that argument is a number, instead of making an array of one element with that number value in it, it constructs an empty array with a length property equal to the number. This action produces the unfortunate and quirky empty slots behavior that’s reviled about JS arrays.
+`Array.of()` replaces Array() as the preferred function-form constructor for arrays, because Array.of(..) does not have that special single-number-argument case
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+var a = new Array(3);
+console.log(a.length);                       // 3
+console.log(a[0]);                           // undefined
+
+var b = Array.of(3);
+console.log(b.length);                       // 1
+console.log(b[0]);                           // 3
+
+var c = Array.of(1, 2, 3);
+console.log(c.length);                       // 3
+console.log(c);                              // [1,2,3]
+
+console.log(Array.of(0, true, undefined, null, "Array.of"));  // [0, true, undefined, null, "Array.of"]
+  {% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
     {% markdown %}
 **`Array.from(..)`** :
 
-The Array.from() method creates a new Array instance from an array-like or iterable object.
+The from() method creates a new Array instance from an array-like or iterable object.
 
 `Syntax` : Array.from(*arrayLike[, mapFn[, thisArg]]*)
+
+- `arrayLike` : An array-like or iterable object to convert to an array.
+
+- `mapFn` : Optional. Map function to call on every element of the array.
+
+- `thisArg` : Optional. Value to use as this when executing mapFn.
 
 Array.from()’s basic functionality is to convert two kinds of objects to arrays:
 
@@ -36,7 +76,7 @@ On `line 9` the result of querySelectorAll() is not an array and does not have a
 
 Array.from() has an optional parameter `mapFn`, which allows you to execute a map function on each element of the array (or subclass object) that is being created. More clearly, `Array.from(obj, mapFn, thisArg)` is the same as `Array.from(obj).map(mapFn, thisArg)`, except that it does not create an intermediate array. An [Arrow function](http://es6samples.com/functions/arrow-functions/) can also be used instead of mapFn.
 
-As with other array methods that take callbacks, Array.from() takes an optional `third argument` that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, this will be `undefined`.
+As with other array methods that take callbacks, Array.from() takes an optional `third argument` that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, this will be `undefined`. In `line 27-31` we pass `obj` as `this` reference and upon logging `this` inside the callback function we get `obj`.
 
 Array.from() ignores `holes` in `arrays`, it treats them as if they were `undefined` elements. Click the link for an awesome description on [Holes in Arrays](http://speakingjs.com/es5/ch18.html#array_holes).
 
@@ -69,7 +109,13 @@ Array.from(divs, function(node) {
 });
 
 // Arrow function instead of mapFn
-Array.from([1, 2, 3], x => x * x);              // [1, 4, 9]  
+Array.from([1, 2, 3], x => x * x);              // [1, 4, 9]
+
+// Third argument passed as this
+var obj = {length: 1, a: 5};            // array-like object
+Array.from(obj, function(node) {
+   console.log(this);            // Object {length: 1, a: 5}
+}, obj);
 
 // Holes in Arrays
 console.log(Array.from([1,,2]));        // [1, undefined, 2]
@@ -84,47 +130,65 @@ console.log(objMyArray instanceof MyArray);     // true
 
 <div class="sample-area">
   <div class="copy">
-	{% markdown %}
-**`Array.of(..)`** :
-The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
-
-`Syntax` : Array.of(*element0[, element1[, ...[, elementN]]]*)
-
-There’s a well known gotcha with the Array() constructor, which is that if there’s only one argument passed, and that argument is a number, instead of making an array of one element with that number value in it, it constructs an empty array with a length property equal to the number. This action produces the unfortunate and quirky empty slots behavior that’s reviled about JS arrays.
-`Array.of()` replaces Array() as the preferred function-form constructor for arrays, because Array.of(..) does not have that special single-number-argument case
-
-	{% endmarkdown %}
-  </div>
-  <div class="code">
-  {% highlight javascript linenos %}
-var a = new Array(3);
-console.log(a.length);                       // 3
-console.log(a[0]);                           // undefined
-
-var b = Array.of(3);
-console.log(b.length);                       // 1
-console.log(b[0]);                           // 3
-
-var c = Array.of(1, 2, 3);
-console.log(c.length);                       // 3
-console.log(c);                              // [1,2,3]
-
-console.log(Array.of(0, true, undefined, null, "Array.of"));  // [0, true, undefined, null, "Array.of"]
-  {% endhighlight %}
-  </div>
-</div>
-
-
-<div class="sample-area">
-  <div class="copy">
   <h4>Array Prototype Function</h4>
   {% markdown %}
-**`Array.find(..)`** :
+**`Array.prototype.find(..)`** : The find() function returns the first `value` in the array, if an element in the array satisfies the `testing function`. Otherwise `undefined` is returned.
+
+`Syntax` : arr.find(*callback[, thisArg]*)
+
+- `callback` : Function to execute on each value in the array, taking three arguments:
+
+  - `element` : The current element being processed in array.
+  - `index` : The index of the current element being processed in the array.
+  - `array` : The array find() was called upon.
+  
+- `thisArg` : Optional. Object to use as this when executing callback.
+
+The most common way to search for a value in an array has generally been the `indexOf()` method, which returns the index the value is found at or -1 if not found.
+
+Since `ES5`, the most common workaround to have control over the matching logic has been the `some()` method. It works by calling a function callback for each element, until one of those calls returns a true/truthy value, and then it stops. Because you get to define the callback function, you have full control over how a match is made. But the `downside` to this approach is that you only get the true/false indicating if a suitably matched value was found, but not what the actual matched value was.
+
+`ES6’s find()` addresses this. It works basically the same as `some()`, except that once the callback returns a true/truthy value, the actual array value is returned.
+
+As with other array methods that take callbacks, find() takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, this will be `undefined`.
 
     {% endmarkdown %}
   </div>
   <div class="code">
   {% highlight javascript linenos %}
+[1, 2, 3].find(x => x == 3);    // 3
+[1, 2, 3].find(x => x > 3);     // undefined
+
+  {% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+**`Array.prototype.findIndex(..)`** : The findIndex() function returns the `index` of the first element in the array, if an element in the array satisfies the `testing function`. Otherwise `-1` is returned.
+
+`Syntax` : arr.findIndex(*callback[, thisArg]*)
+
+- `callback` : Function to execute on each value in the array, taking three arguments:
+
+  - `element` : The current element being processed in array.
+  - `index` : The index of the current element being processed in the array.
+  - `array` : The array findIndex() was called upon.
+  
+- `thisArg` : Optional. Object to use as this when executing callback.
+
+While `some()` yields a boolean result for a search of an array, and `find()` yields the matched value itself from the array search, there’s also a need for finding the `positional index` of the matched value.
+`indexOf()` does that, but there’s no control over its matching logic; it always uses `=== strict equality`. So `ES6’s findIndex()` is the answer.
+
+As with other array methods that take callbacks, findIndex() takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, this will be `undefined`.
+    {% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+[1, 2, 3].findIndex(x => x == 3);    // 2
+[1, 2, 3].findIndex(x => x > 3);     // -1
   
   {% endhighlight %}
   </div>
@@ -134,13 +198,143 @@ console.log(Array.of(0, true, undefined, null, "Array.of"));  // [0, true, undef
 <div class="sample-area">
   <div class="copy">
   {% markdown %}
-**`Array.findIndex(..)`** :
+**`Array.prototype.fill(..)`** : The fill() method fills all the elements of an array from a start index to an end index with a static value.
+
+`Syntax` : arr.fill(*value[, start = 0[, end = this.length]]*)
+
+- `value` : Value to fill an array. 
+- `start` : Optional. Start index.
+- `end` : Optional. End index.
+
+If `start` is `negative`, it is treated as `length + start` where length is the length of the array. If `end` is `negative`, it is treated as `length + end`.
+
+The fill method is a `mutable` method, it will change this object itself, and return it, not just return a copy of it.
 
     {% endmarkdown %}
   </div>
   <div class="code">
   {% highlight javascript linenos %}
-  
+var arr = [1, 2, 3];
+console.log(arr);         // [1, 2, 3]
+
+arr.fill(4);    
+console.log(arr);         // [4, 4, 4]
+
+var arr = [1, 2, 3];
+arr.fill(4, 1);
+console.log(arr);         // [1, 4, 4]
+
+var arr = [1, 2, 3];
+arr.fill(4, 1, 2);
+console.log(arr);         // [1, 4, 3]
+
+var arr = [1, 2, 3];
+arr.fill(4, -3, -2)       
+console.log(arr);         // [4, 2, 3]
   {% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+`ES6`, `Array` might not be thought of traditionally as a `collection`, but it is one in the sense that it provides these same `iterator` methods: keys(), values() and entries().
+  
+**`Array.prototype.keys(..)`** : The keys() method returns a new `Array Iterator` that contains the `keys` for each index in the array.
+
+`Syntax` : arr.keys()
+
+
+**`Array.prototype.values(..)`** : The values() method returns a new `Array Iterator` object that contains the `values` for each index in the array.
+
+`Syntax` : arr.values()
+
+
+**`Array.prototype.entries(..)`** : The entries() method returns a new `Array Iterator` object that contains the `key/value` pairs for each index in the array.
+
+`Syntax` : arr.entries()
+
+The `result` of each of the aforementioned `methods` is a sequence of values, but they are not returned as an array; they are revealed one by one, via an `iterator`.
+
+    {% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+var arr = ["a", "b", "c"];
+
+// keys()
+var iterator1 = arr.keys();     // iterator 0, 1, 2
+console.log(iterator1.next());  // { value: 0, done: false }
+console.log(iterator1.next());  // { value: 1, done: false }
+console.log(iterator1.next());  // { value: 2, done: false }
+console.log(iterator1.next());  // { value: undefined, done: true }
+
+// values()
+var iterator2 = arr.values();   // iterator "a", "b", "c"
+console.log(iterator2.next());  // { value: "a", done: false }
+console.log(iterator2.next());  // { value: "b", done: false }
+console.log(iterator2.next());  // { value: "c", done: false }
+console.log(iterator2.next());  // { value: undefined, done: true }
+
+// entries()
+var iterator3 = arr.entries();        // iterator [0, "a"], [1, "b"], [2, "c"]
+console.log(iterator3.next().value);  // [0, "a"]
+console.log(iterator3.next().value);  // [1, "b"]
+console.log(iterator3.next().value);  // [2, "c"]
+
+  {% endhighlight %}
+  </div>
+</div>
+
+
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+**`Array.prototype.copyWithin(..)`** : The copyWithin() is a new `mutator` method available to all arrays. copyWithin() copies a portion of an array to another location in the same array, `overwriting` whatever was there before.
+
+`Syntax` : arr.copyWithin(*target, start[, end = this.length]*)
+
+- `target` : Target start index position where to copy the elements to. 
+- `start` : Source start index position where to start copying elements from.
+- `end` : Optional. Source end index position where to end copying elements from.
+
+The `arguments` target, start, and end are coerced to `Number` and truncated to `integer` values.
+
+If `start` is `negative`, it is treated as `length + start` where length is the length of the array. If `end` is `negative`, it is treated as `length + end`.
+
+The copyWithin() method does not extend the array’s length, as the `first example` shows. Copying simply stops when the end of the array is reached.
+
+Contrary to what you might think, the `copying` doesn’t always go in `left-to-right` (ascending index) order. It’s possible this would result in repeatedly copying an already copied value if the from and target ranges overlap, which is presumably not desired behavior.
+
+So internally, the `algorithm` avoids this case by copying in `reverse order` to avoid that gotcha. Consider example 5.
+
+If the `algorithm` was strictly moving `left to right`, then the 2 should be copied to overwrite the 3, then that copied 2 should be copied to overwrite 4, then that copied 2 should be copied to overwrite 5, and you’d end up with `[1, 2, 2, 2, 2]`.
+
+Instead, the copying `algorithm reverses direction` and copies 4 to overwrite 5, then copies 3 to overwrite 4, then copies 2 to overwrite 3, and the final result is `[1, 2, 2, 3, 4]`. That’s probably more correct in terms of expectation, but it can be confusing if you’re only thinking about the copying algorithm in a naive `left-to-right` fashion.
+
+    {% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+console.log([1, 2, 3, 4, 5].copyWithin(3, 0));         // [1,2,3,1,2]
+console.log([1, 2, 3, 4, 5].copyWithin(3, 0, 1));      // [1,2,3,1,5]
+console.log([1, 2, 3, 4, 5].copyWithin(0, -2));        // [4,5,3,4,5]
+console.log([1, 2, 3, 4, 5].copyWithin(0, -2, -1));    // [4,2,3,4,5]
+
+console.log([1,2,3,4,5].copyWithin( 2, 1 ));     // ???
+
+  {% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>Array Comprehension</h4>
+    
+  </div>
+  <div class="code">
   </div>
 </div>
