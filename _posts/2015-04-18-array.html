@@ -332,9 +332,28 @@ console.log([1,2,3,4,5].copyWithin( 2, 1 ));     // ???
 
 <div class="sample-area">
   <div class="copy">
-    <h4>Array Comprehension</h4>
-    
+    <h4>Array Comprehension(Proposed for ECMAScript 7)</h4>
+	{% markdown %}
+The array comprehensions are a a language features where you create a list based on an original list by doing some kind of operations to each item in the original list to produce the items in the new list. Java Script have this feature for a while using the `map()` function but comprehensions can make this feature a lot easier to read.
+
+`Syntax` : 
+
+- [for (x of iterable) x]
+- [for (x of iterable) if (condition) x]
+- [for (x of iterable) for (y of iterable) x + y]
+
+An easy way to understand how array comprehension works is by comparing it with `map` and `filter`.
+
+{% endmarkdown %}
   </div>
   <div class="code">
+  {% highlight javascript linenos %}
+console.log(var arr = [for (i of [1, 2, 3]) i]);  // [1, 2, 3]
+console.log([for (i of [1, 2, 3]) i * i]);        // [1, 4, 9]
+console.log([for (i of [1, 2, 3]) if(i < 3) i]);  // [1, 2]
+console.log([for (x of [ 1, 2, 3]) for (y of [ 3, 2, 1 ]) x * y]);    // [3, 2, 1, 6, 4, 2, 9, 6, 3]
+
+
+  {% endhighlight %}
   </div>
 </div>
