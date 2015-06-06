@@ -10,7 +10,7 @@ categories: bindings
     {% markdown %}
 let allows you to declare variables that are limited in scope to the block, statement, or expression on which it is used. This is unlike the var keyword, which defines a variable globally, or locally to an entire function regardless of block scope. The let works as expected, setting the variable in the place where it was declared.
 
-There's no hoisting behavior for variables declared with let. If you reference a variable in a block before the let declaration for that variable is encountered, it will result in a ReferenceError. With the let keyword, we now have true block-level scoping!
+There's no `hoisting` behavior for variables declared with let. If you reference a variable in a block before the let declaration for that variable is encountered, it will result in a `ReferenceError`. With the let keyword, we now have true block-level scoping!
 
 In this example we have created a new function `foo` and then called it. As expected the last console statement will produce a `Reference Error` because x is only defined (scoped) inside the foo() function. The first console statement will execute just fine due to variable hoisting. In this case, `x` will evaluate to `undefined`. 
 
@@ -21,17 +21,17 @@ The second console statement, however, is more interesting. In fact, `both of th
   <div class="code">
   	{% highlight javascript linenos %}
 function foo() {
-  console.log( x );
-  console.log( y );
+  console.log(x);      // undefined
+  console.log(y);      // ReferenceError
   var x = 1;
   if (x === 1) {
     let y = 2;
   }
-  console.log( y );
+  console.log(y);      // ReferenceError
 }
 foo();
-console.log( x );
-{% endhighlight %}
+console.log(x);        // ReferenceError
+{% endhighlight %} 
   </div>
 </div>
 

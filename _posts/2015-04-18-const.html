@@ -22,16 +22,19 @@ Note that const does not affect whether the value of a constant itself is `mutab
   </div>
   <div class="code">
   {% highlight javascript linenos %}
-const z; // SyntaxError: const declarations must have an initializer
+const z;      // SyntaxError: const declarations must have an initializer
 const y = 10; // y === 10
-y = 20; // SyntaxError: Assignment to constant variable
+y = 20;       // SyntaxError: Assignment to constant variable
+
 // const also works on objects
 const obj = {};
+
 // Overwriting the object fails   
-obj = {}; // TypeError
-//However, object attributes are not protected, so the following statement is executed without problems
+obj = {};     // TypeError
+
+// However, object attributes are not protected, so the following statement is executed without problems
 obj.prop = 123;
-console.log(obj.prop); // 123
+console.log(obj.prop);     // 123
 
 {% endhighlight %}
   </div>
