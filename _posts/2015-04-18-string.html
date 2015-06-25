@@ -7,8 +7,180 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>String</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+    {% markdown %}
+`ECMAScript6` extends strings with new functionality.
+	{% endmarkdown %}
   </div>
   <div class="code">
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>String Inspection Functions</h4>
+    {% markdown %}
+Three new functions for searching/inspection have been added.
+
+**`String.prototype.includes(..)`** :
+This method returns `true` if a given text is found anywhere within a string. Otherwise it returns `false`.
+
+`Syntax` : str.includes(*searchString[, position]*)
+
+- `searchString` : A string to be searched for within this string.
+- `position` : Optional. The position in this string at which to `begin` searching for searchString; defaults to 0.
+
+The includes() method is `case sensitive`.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.includes("Hello"));       // true
+console.log(str.includes("hello"));       // false
+console.log(str.includes("h"));           // false
+
+console.log(str.includes("Hello", 3));    // false
+console.log(str.includes("world", 5));    // true
+console.log(str.includes("world", 7));    // false
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.startsWith(..)`** :
+This method returns `true` if a string starts with the given text. Otherwise it returns `false`.
+
+`Syntax` : str.startsWith(*searchString[, position]*)
+
+- `searchString` : The characters to be searched for at the start of this string.
+- `position` : Optional. The position in this string at which to `begin` searching for searchString; defaults to 0.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.startsWith("Hello"));     // true
+console.log(str.startsWith("hello"));     // false
+console.log(str.startsWith("wor", 6));    // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.endsWith(..)`** :
+This method returns `true` if a string ends with the given text. Otherwise it returns `false`.
+
+`Syntax` : str.endsWith(*searchString[, position]*)
+
+- `searchString` : The characters to be searched for at the end of this string.
+- `position` : Optional. Where the string to be checked ends.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.endsWith("world!"));       // true
+console.log(str.endsWith("o", 5));         // true
+console.log(str.endsWith("o", 4));         // false
+console.log(str.endsWith("o", 8));         // true
+console.log(str.endsWith("Hello", 5));     // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>String Unicode Functions</h4>
+    {% markdown %}
+For a basic understanding of `Unicode encoding` schemes refer the following video series on `youtube` by [dizauvi](https://www.youtube.com/channel/UCSjM4BqSHBJHz6rALUtGRaA) -
+
+[https://www.youtube.com/watch?v=B1Sf1IhA0j4](https://www.youtube.com/watch?v=B1Sf1IhA0j4)
+
+**`String.prototype.codePointAt(..)`** :
+This method returns the `UTF-16` encoded code point value that maps to a given position in string.
+
+`Syntax` : str.codePointAt(*pos*)
+
+- `pos` : Position of an element in the String to return the code point value from.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log('ABC'.codePointAt(1));            // 66
+
+console.log('\uD800\uDC00'.codePointAt(0));   // 65536
+console.log('\uD800\uDC00'.codePointAt(1));   // 56320
+console.log('\uD800\uDC00'.codePointAt(2));   // undefined
+
+console.log('XYZ'.codePointAt(42));           // undefined
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.fromCodePoint(..)`** :
+This method returns a string created by using the specified sequence of code points.
+
+`Syntax` : String.fromCodePoint(*num1[, ...[, numN]]*)
+
+- `num1, ..., numN` : A sequence of code points.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(String.fromCodePoint(134071));    // "𠮷"
+console.log(String.fromCodePoint(128, 169));  // "©"
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.normalize(..)`** :
+This method returns the `Unicode Normalization Form` of a given string (if the value isn't a string, it will be converted to one first).
+
+`Syntax` : str.normalize(*[form]*)
+
+- `form` : One of `NFC`, `NFD`, `NFKC`, or `NFKD`, specifying the `Unicode Normalization Form`. If omitted or undefined, `NFC` is used.
+
+In the example, as you can see that `s1` and `s2` are same but their `length` are different. In this case, we can perform a Unicode normalization on the value before inquiring about its length, using the `ES6 String#normalize(..)` utility. Essentially, `normalize(..)` takes a sequence like `e\u0301` and normalizes it to `\xE9`.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var s1 = "\xE9";
+var s2 = "e\u0301";
+
+console.log(s1);                      // é
+console.log(s2);                      // é
+
+console.log(s1.length);               // 1
+console.log(s2.length);               // 2
+
+console.log(s2.normalize().length);   // 1
+
+console.log(s1 === s2.normalize());   // true
+	{% endhighlight %}
+
   </div>
 </div>
