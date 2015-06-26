@@ -7,8 +7,329 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>Math</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+	{% markdown %}
+`ECMAScript6` also adds several new functions on the `Math` object. It’s likely that asm.js/transpiled JS code is the more likely consumer of many of these utilities rather than direct developers.
+	{% endmarkdown %}
   </div>
   <div class="code">
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    <h1>Math Trigonometric functions</h1>
+	{% markdown %}
+**`Math.sinh(..)`** :
+This function returns the hyperbolic sine of a number.
+
+`Syntax` : Math.sinh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.sinh(0));  // 0
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.cosh(..)`** :
+This function returns the hyperbolic cosine of a number.
+
+`Syntax` : Math.cosh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.cosh(0));  // 1
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.tanh(..)`** :
+This function returns the hyperbolic tangent of a number.
+
+`Syntax` : Math.tanh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.tanh(0));  // 0
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.asinh(..)`** :
+This function returns the hyperbolic arcsine of a number.
+
+`Syntax` : Math.asinh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.asinh(0));  // 0
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.acosh(..)`** :
+This function returns the hyperbolic arccosine of a number.
+
+`Syntax` : Math.acosh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.acosh(1));  // 0
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.atanh(..)`** :
+This function returns the hyperbolic arctangent of a number.
+
+`Syntax` : Math.atanh(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.atanh(0));  // 0
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.hypot(..)`** :
+This function returns the square root of the sum of squares of its arguments.
+
+`Syntax` : Math.hypot(*[value1[, value2[, ...]]]*)
+
+- `value1, value2, ...` : Numbers.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.hypot(3, 4));  // 5
+	{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h1>Math Arithmetic functions</h1>
+	{% markdown %}
+**`Math.cbrt(..)`** :
+This function returns the cube root of a number.
+
+`Syntax` : Math.cbrt(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.cbrt(27));  // 3
+	{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.clz32(..)`** : 
+This function returns number of leading zero bit in 32-bit binary representation of a number. `clz32` is short for `CountLeadingZeroes32`.
+
+`Syntax` : Math.clz32(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.clz32(5));  // 29
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.log1p(..)`** :
+This function returns the natural logarithm (base e) of 1 + a number. If the value of x is less than -1, the return value is always NaN.
+
+`Syntax` : Math.log1p(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.log1p(35));  // 3.58351893845611
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.log10(..)`** :
+This function returns the base 10 logarithm of a number. If the value of x is less than 0, the return value is always NaN.
+
+`Syntax` : Math.log10(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.log10(100));  // 2
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.log2(..)`** :
+This function returns the base 2 logarithm of a number. If the value of x is less than 0, the return value is always NaN.
+
+`Syntax` : Math.log2(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.log2(32));  // 5
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.expm1(..)`** :
+This function returns e<sup>x</sup> - 1, where x is the argument, and e the base of the natural logarithms.
+
+`Syntax` : Math.expm1(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.expm1(35));  // 1586013452313429.8
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.fround(..)`** :
+This function returns the nearest single precision float representation of a number.
+
+`Syntax` : Math.fround(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.fround(2.888));  // 2.888000011444092
+	{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.sign(..)`** :
+This function returns the sign of a number, indicating whether the number is positive, negative or zero. This function has 5 kinds of return values, 1, -1, 0, -0, NaN, which represent `positive number`, `negative number`, `positive zero`, `negative zero` and `NaN` respectively.
+
+`Syntax` : Math.sign(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.sign(10));   // 1
+console.log(Math.sign(0));    // 0
+console.log(Math.sign(-10));  // -1
+console.log(Math.sign(-0));   // -0
+console.log(Math.sign(NaN));  // NaN
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.trunc(..)`** :
+This function returns the integral part of a number by removing any fractional digits.
+
+`Syntax` : Math.trunc(*x*)
+
+- `x` : A number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.trunc(2.8));   // 2
+console.log(Math.trunc(-2.8));  // -2
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Math.imul(..)`** :
+This function returns the result of the C-like 32-bit multiplication of the two parameters.
+
+`Syntax` : Math.imul(*a, b*)
+
+- `a` : First number.
+- `b` : Second number.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Math.imul(2, 4));    // 8
+console.log(Math.imul(-1, 8));   // -8
+console.log(Math.imul(-2, -2));  // 4
+	{% endhighlight %}
   </div>
 </div>
