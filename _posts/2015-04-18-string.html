@@ -107,6 +107,39 @@ For a basic understanding of `Unicode encoding` schemes refer the following vide
 
 [https://www.youtube.com/watch?v=B1Sf1IhA0j4](https://www.youtube.com/watch?v=B1Sf1IhA0j4)
 
+The `Unicode` characters that range from `0x0000` to `0xFFFF` contain all the standard printed characters (in various languages) that you’re likely to have seen or interacted with. This group of characters is called the `Basic Multilingual Plane (BMP)`. 
+
+There are lots of other extended Unicode characters beyond this BMP set, which range up to 0x10FFFF. These symbols are often referred to as `astral symbols`, as that’s the name given to the set of `16 planes` (e.g., layers/groupings) of characters beyond the BMP. 
+
+Prior to ES6, JavaScript strings could specify Unicode characters using Unicode escaping. However, the `\uXXXX` Unicode escaping only supports `four hexadecimal characters`, so you can only represent the `BMP` set of characters in this way. To represent an `astral character` using Unicode escaping prior to ES6, you need to use a `surrogate pair` - basically two specially calculated Unicode-escaped characters side by side, which JS interprets together as a single astral character.
+
+As of `ES6`, we now have a new form for `Unicode escaping` (in strings and regular expressions), called `Unicode code point escaping`.
+
+As you can see, the difference is the presence of the `{ }` in the escape sequence, which allows it to contain any number of hexadecimal characters. Because you only need six to represent the highest possible code point value in Unicode (i.e., 0x10FFFF), this is sufficient.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+// BMP character with four hex digits.
+var snowman = "\u2603";
+console.log(snowman);         // "☃"
+
+// Astral character representation using surrogate pairs
+var han = "\uD852\uDF62";
+console.log(han);           // "𤭢"
+
+// Astral character representation using Unicode code point escaping ({})
+var han = "\u{24B62}";
+console.log(han);           // "𤭢"
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
 **`String.prototype.codePointAt(..)`** :
 This method returns the `UTF-16` encoded code point value that maps to a given position in string.
 
@@ -129,6 +162,8 @@ console.log('XYZ'.codePointAt(42));           // undefined
 
   </div>
 </div>
+
+
 
 <div class="sample-area">
   <div class="copy">
@@ -180,6 +215,55 @@ console.log(s2.length);               // 2
 console.log(s2.normalize().length);   // 1
 
 console.log(s1 === s2.normalize());   // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>Other Functions</h4>
+    {% markdown %}
+**`String.prototype.repeat(..)`** :
+This method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together. The repeat count must be positive and less than infinity.
+
+`Syntax` : str.repeat(*count*)
+
+- `count` : An integer between 0 and +∞: [0, +∞), indicating the number of times to repeat the string in the newly-created string that is to be returned.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log("foo".repeat(3));   // foofoofoo
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.raw(..)`** :
+The String.raw(..) utility is provided as a built-in tag function to use with template string literals for obtaining the raw string value without any processing of escape sequences.
+
+`Syntax` : String.raw(*callSite, ...substitutions*)
+
+String.raw`templateString`
+
+- `callSite` : Well-formed template call site object, like { raw: 'string' }.
+- `...substitutions` : Contains substitution values.
+- `templateString` : A template string, optionally with substitutions (${...}).
+
+In the resultant string, \ and t are separate raw characters, not the one escape sequence character \t. The same is true with the Unicode escape sequence.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "bc";
+console.log(String.raw`\ta${str}d\xE9`);  // "\tabcd\xE9", not "  abcdé"
 	{% endhighlight %}
 
   </div>
