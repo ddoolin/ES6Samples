@@ -9,7 +9,18 @@ categories: extensions
     <h1>Number</h1>
 {% markdown %}
 `Numbers` are quite important to JavaScript developers. Given the new emphasis on gaming and graphics in JavaScript, ECMAScript 6 sought to make working with numbers easier and more powerful.
-<h4>ES6 binary and octal literals</h4>
+{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>ES6 binary and octal literals</h4>
+{% markdown %}
 In `ECMAScript 3 and earlier`, octal numbers were represented with a leading 0 followed by any number of digits.
 
 `ECMAScript 5` cut down on the use of `octal` numbers. First, `parseInt()` was changed so that it ignores leading zeros in the first argument when there is no second argument. This means a number cannot accidentally be treated as octal anymore. The second change was to eliminate octal literal notation in strict mode. Attempting to use an octal literal in `strict mode` results in a `syntax error`. By making these two changes, ECMAScript 5 sought to eliminate a lot of the confusion and errors associated with octal literals.
