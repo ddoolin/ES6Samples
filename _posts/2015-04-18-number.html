@@ -7,8 +7,224 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>Number</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+{% markdown %}
+`Numbers` are quite important to JavaScript developers. Given the new emphasis on gaming and graphics in JavaScript, ECMAScript 6 sought to make working with numbers easier and more powerful.
+{% endmarkdown %}
   </div>
   <div class="code">
+  {% highlight javascript linenos %}
+{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>ES6 binary and octal literals</h4>
+{% markdown %}
+In `ECMAScript 3 and earlier`, octal numbers were represented with a leading 0 followed by any number of digits.
+
+`ECMAScript 5` cut down on the use of `octal` numbers. First, `parseInt()` was changed so that it ignores leading zeros in the first argument when there is no second argument. This means a number cannot accidentally be treated as octal anymore. The second change was to eliminate octal literal notation in strict mode. Attempting to use an octal literal in `strict mode` results in a `syntax error`. By making these two changes, ECMAScript 5 sought to eliminate a lot of the confusion and errors associated with octal literals.
+
+`ECMAScript 6` took things a step further by reintroducing an `octal` literal notation, along with a `binary` literal notation. Both of these notations take a hint from the `hexadecimal` literal notation of prepending `0x or 0X` to a value. The new octal literal format begins with `0o or 0O` while the new binary literal format begins with `0b or 0B`. Each literal type must be followed by one or more digits, 0-7 for octal, 0-1 for binary.
+
+{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+// ECMAScript 3
+var number = 071;                   // 57 in decimal
+var value1 = parseInt("71");        // 71
+var value2 = parseInt("071");       // 57
+
+// ECMAScript 5
+var number = 071;                   // 57 in decimal
+var value1 = parseInt("71");        // 71
+var value2 = parseInt("071");       // 71
+var value3 = parseInt("071", 8);    // 57
+
+function getValue() {
+    "use strict";
+    return 071;         // syntax error
+}
+
+// ECMAScript 6
+var octal = 0o71;       // 57 in decimal
+var binary = 0b101;     // 5 in decimal
+{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+{% markdown %}
+  The `parseInt()` method doesn’t handle strings that look like octal or binary literals.
+
+However, the `Number()` function will convert a string containing octal or binary literals correctly.
+   {% endmarkdown %} 
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+console.log(parseInt("0o71"));      // 0
+console.log(parseInt("0b101"));     // 0
+
+console.log(Number("0o71"));        // 57
+console.log(Number("0b101"));       // 5
+  {% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>New Number constructor properties</h4>
+	{% markdown %}
+In an attempt to clean-up Javascript four number-related functions which were already available as global functions have been added (with no or little modifications) to Number, as methods: parseFloat, parseInt, isNaN and isFinite.
+{% endmarkdown %}
+  </div>
+  <div class="code">
+  {% highlight javascript linenos %}
+{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+The following two methods work exactly like the global functions with the same names. They were added to Number for completeness sake; now all number-related functions are available there.<br/><br/>
+`Number.parseFloat(string)`<br/>
+`Number.parseInt(string, radix)`
+{% endmarkdown %}    
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(Number.parseInt("3"));       // 3
+console.log(Number.parseFloat("3.5"));   // 3.5
+{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+Number also exposes `isFinite()` and `isNaN()` function which was available in ES5 but in ES6 the functionality is actually changed. 
+The difference is that both isFinite() and isNaN() pass their arguments through `Number()` to get a numeric value and then perform their comparisons on that numeric value rather than the original.
+
+`ECMAScript 6` perform the same comparison but only for number values. These methods always return `false` when passed a non-number value and return the same values as their global counterparts when passed a number value.
+
+`Number.isFinite()` <br/> 
+`Number.isNaN()`
+
+{% endmarkdown %}    
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+// isFinite() vs Number.isFinite()
+console.log(isFinite(25));              // true
+console.log(isFinite("25"));            // true
+console.log(Number.isFinite(25));       // true
+console.log(Number.isFinite("25"));     // false
+
+// isNaN() vs Number.isNaN()
+console.log(isNaN(NaN));                // true
+console.log(isNaN("NaN"));              // true
+console.log(Number.isNaN(NaN));         // true
+console.log(Number.isNaN("NaN"));       // false
+
+{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+   A `Number` is a floating point number with a limited precision of `64 bits`, about `16 digits`. The largest integer number which can be represented by a JavaScript Number is <br/> `+/- 9007199254740992 (+/- 2^53)`. Because of the limited precision of floating point numbers, round-off errors can occur during calculations. 
+   
+  Especially with decimal fractions, rounding errors can become a problem in JavaScript. 
+  The most (in)famous side effect of using binary floating-point numbers is:<br/>
+  `0.1 + 0.2 === 0.3; // false`
+  
+  Mathematically, we know that statement should be `true`. Why is it false?
+Simply put, the representations for 0.1 and 0.2 in binary floating point are not exact, so when they are added, the result is not exactly 0.3. It’s really close, `0.30000000000000004`, but if your comparison fails, close is irrelevant.
+
+What if we did need to compare two numbers, like 0.1 + 0.2 to 0.3, knowing that the simple equality test fails?
+The most commonly accepted practice is to use a tiny `rounding error` value as the tolerance for comparison. This tiny value is often called `machine epsilon`, which is commonly `2^-52(2.220446049250313e-16)` for the kind of numbers in JavaScript
+
+As of `ES6`, `Number.EPSILON` is predefined with this tolerance value, so you’d want to use it. We can use this Number.EPSILON to compare two numbers for equality (within the rounding error tolerance).
+
+The `Number.EPSILON` property represents the difference between one and the smallest value greater than one that can be represented as a Number. The EPSILON property has a value of approximately `2.2204460492503130808472633361816E-16`, or `2-52`.
+
+{% endmarkdown %}    
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+	function numbersCloseEnoughToEqual(n1,n2) {
+    return Math.abs(n1 - n2) < Number.EPSILON;
+}
+
+var a = 0.1 + 0.2;
+var b = 0.3;
+
+numbersCloseEnoughToEqual(a, b);                  // true
+numbersCloseEnoughToEqual(0.0000001, 0.0000002);  // false
+{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+JavaScript numbers have only enough storage space to represent 53 bit signed integers. That is, integers i in the range −253 < i < 253 are safe.
+
+The two Number properties specifying the lower and upper bound of safe integers could be defined as follows:
+`Number.MAX_SAFE_INTEGER` : The highest integer that can safely be represented unambiguously in a JS number value: 2^53 - 1. <br/>
+`Number.MIN_SAFE_INTEGER` : The lowest integer that can safely be represented unambiguously in a JS number value:<br/> -(2^53 - 1) or (-2)^53 + 1.
+
+{% endmarkdown %}    
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+	console.log(Number.MAX_SAFE_INTEGER);  //9007199254740991
+console.log(Number.MIN_SAFE_INTEGER);  //-9007199254740991
+{% endhighlight %}
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+  {% markdown %}
+  `JavaScript` has just one numeric type: `number`. This type includes both `integer` values and fractional decimal numbers. So, in JS, an integer is just a value that has no fractional decimal value. `ECMAScript 6` seeks to address this by making it easier to identify and work with `integers`.
+
+The first addition is `Number.isInteger()`, which allows you to determine if a value represents an `integer` in JavaScript. Since integers and floats are stored differently, the JavaScript engine looks at the underlying representation of the value to make this determination. That means numbers that look like floats might actually be stored as integers and therefore return true from Number.isInteger().
+
+`ES6` also defines a `Number.isSafeInteger()` utility, which checks to make sure the value is both an integer and within the range of `Number.MIN_SAFE_INTEGER-Number.MAX_SAFE_INTEGER` (excluding the lower and upper bounds).
+
+{% endmarkdown %}    
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+	// Number.isInterger()
+console.log(Number.isInteger(-17));        // true
+console.log(Number.isInteger(25));         // true
+console.log(Number.isInteger(25.0));       // true
+console.log(Number.isInteger(25.1));       // false
+console.log(Number.isInteger(NaN));        // false
+console.log(Number.isInteger(Infinity));   // false
+
+// Number.isSafeInterger()
+console.log(Number.isSafeInteger(Number.MAX_SAFE_INTEGER));  // true
+console.log(Number.isSafeInteger(Math.pow(2, 53)));          // false
+console.log(Number.isSafeInteger(Math.pow(2, 53) - 1));      // true
+
+var x = Math.pow(2, 53),
+    y = Math.pow(-2, 53);
+console.log(Number.isSafeInteger(x - 1));   // true
+console.log(Number.isSafeInteger(y + 1));   // true
+console.log(Number.isSafeInteger(x));       // false
+console.log(Number.isSafeInteger(y));       // false
+{% endhighlight %}
   </div>
 </div>

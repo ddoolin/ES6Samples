@@ -7,8 +7,264 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>String</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+    {% markdown %}
+`ECMAScript6` extends strings with new functionality.
+	{% endmarkdown %}
   </div>
   <div class="code">
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>String Inspection Functions</h4>
+    {% markdown %}
+Three new functions for searching/inspection have been added.
+
+**`String.prototype.includes(..)`** :
+This method returns `true` if a given text is found anywhere within a string. Otherwise it returns `false`.
+
+`Syntax` : str.includes(*searchString[, position]*)
+
+- `searchString` : A string to be searched for within this string.
+- `position` : Optional. The position in this string at which to `begin` searching for searchString; defaults to 0.
+
+The includes() method is `case sensitive`.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.includes("Hello"));       // true
+console.log(str.includes("hello"));       // false
+console.log(str.includes("h"));           // false
+
+console.log(str.includes("Hello", 3));    // false
+console.log(str.includes("world", 5));    // true
+console.log(str.includes("world", 7));    // false
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.startsWith(..)`** :
+This method returns `true` if a string starts with the given text. Otherwise it returns `false`.
+
+`Syntax` : str.startsWith(*searchString[, position]*)
+
+- `searchString` : The characters to be searched for at the start of this string.
+- `position` : Optional. The position in this string at which to `begin` searching for searchString; defaults to 0.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.startsWith("Hello"));     // true
+console.log(str.startsWith("hello"));     // false
+console.log(str.startsWith("wor", 6));    // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.endsWith(..)`** :
+This method returns `true` if a string ends with the given text. Otherwise it returns `false`.
+
+`Syntax` : str.endsWith(*searchString[, position]*)
+
+- `searchString` : The characters to be searched for at the end of this string.
+- `position` : Optional. Where the string to be checked ends.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "Hello world!";
+console.log(str.endsWith("world!"));       // true
+console.log(str.endsWith("o", 5));         // true
+console.log(str.endsWith("o", 4));         // false
+console.log(str.endsWith("o", 8));         // true
+console.log(str.endsWith("Hello", 5));     // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>String Unicode Functions</h4>
+    {% markdown %}
+For a basic understanding of `Unicode encoding` schemes refer the following video series on `youtube` by [dizauvi](https://www.youtube.com/channel/UCSjM4BqSHBJHz6rALUtGRaA) -
+
+[https://www.youtube.com/watch?v=B1Sf1IhA0j4](https://www.youtube.com/watch?v=B1Sf1IhA0j4)
+
+The `Unicode` characters that range from `0x0000` to `0xFFFF` contain all the standard printed characters (in various languages) that you’re likely to have seen or interacted with. This group of characters is called the `Basic Multilingual Plane (BMP)`. 
+
+There are lots of other extended Unicode characters beyond this BMP set, which range up to 0x10FFFF. These symbols are often referred to as `astral symbols`, as that’s the name given to the set of `16 planes` (e.g., layers/groupings) of characters beyond the BMP. 
+
+Prior to ES6, JavaScript strings could specify Unicode characters using Unicode escaping. However, the `\uXXXX` Unicode escaping only supports `four hexadecimal characters`, so you can only represent the `BMP` set of characters in this way. To represent an `astral character` using Unicode escaping prior to ES6, you need to use a `surrogate pair` - basically two specially calculated Unicode-escaped characters side by side, which JS interprets together as a single astral character.
+
+As of `ES6`, we now have a new form for `Unicode escaping` (in strings and regular expressions), called `Unicode code point escaping`.
+
+As you can see, the difference is the presence of the `{ }` in the escape sequence, which allows it to contain any number of hexadecimal characters. Because you only need six to represent the highest possible code point value in Unicode (i.e., 0x10FFFF), this is sufficient.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+// BMP character with four hex digits.
+var snowman = "\u2603";
+console.log(snowman);         // "☃"
+
+// Astral character representation using surrogate pairs
+var han = "\uD852\uDF62";
+console.log(han);           // "𤭢"
+
+// Astral character representation using Unicode code point escaping ({})
+var han = "\u{24B62}";
+console.log(han);           // "𤭢"
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.codePointAt(..)`** :
+This method returns the `UTF-16` encoded code point value that maps to a given position in string.
+
+`Syntax` : str.codePointAt(*pos*)
+
+- `pos` : Position of an element in the String to return the code point value from.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log('ABC'.codePointAt(1));            // 66
+
+console.log('\uD800\uDC00'.codePointAt(0));   // 65536
+console.log('\uD800\uDC00'.codePointAt(1));   // 56320
+console.log('\uD800\uDC00'.codePointAt(2));   // undefined
+
+console.log('XYZ'.codePointAt(42));           // undefined
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.fromCodePoint(..)`** :
+This method returns a string created by using the specified sequence of code points.
+
+`Syntax` : String.fromCodePoint(*num1[, ...[, numN]]*)
+
+- `num1, ..., numN` : A sequence of code points.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log(String.fromCodePoint(134071));    // "𠮷"
+console.log(String.fromCodePoint(128, 169));  // "©"
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.prototype.normalize(..)`** :
+This method returns the `Unicode Normalization Form` of a given string (if the value isn't a string, it will be converted to one first).
+
+`Syntax` : str.normalize(*[form]*)
+
+- `form` : One of `NFC`, `NFD`, `NFKC`, or `NFKD`, specifying the `Unicode Normalization Form`. If omitted or undefined, `NFC` is used.
+
+In the example, as you can see that `s1` and `s2` are same but their `length` are different. In this case, we can perform a Unicode normalization on the value before inquiring about its length, using the `ES6 String#normalize(..)` utility. Essentially, `normalize(..)` takes a sequence like `e\u0301` and normalizes it to `\xE9`.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var s1 = "\xE9";
+var s2 = "e\u0301";
+
+console.log(s1);                      // é
+console.log(s2);                      // é
+
+console.log(s1.length);               // 1
+console.log(s2.length);               // 2
+
+console.log(s2.normalize().length);   // 1
+
+console.log(s1 === s2.normalize());   // true
+	{% endhighlight %}
+
+  </div>
+</div>
+
+
+<div class="sample-area">
+  <div class="copy">
+    <h4>Other Functions</h4>
+    {% markdown %}
+**`String.prototype.repeat(..)`** :
+This method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together. The repeat count must be positive and less than infinity.
+
+`Syntax` : str.repeat(*count*)
+
+- `count` : An integer between 0 and +∞: [0, +∞), indicating the number of times to repeat the string in the newly-created string that is to be returned.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+console.log("foo".repeat(3));   // foofoofoo
+	{% endhighlight %}
+
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`String.raw(..)`** :
+The String.raw(..) utility is provided as a built-in tag function to use with template string literals for obtaining the raw string value without any processing of escape sequences.
+
+`Syntax` : String.raw(*callSite, ...substitutions*)
+
+String.raw`templateString`
+
+- `callSite` : Well-formed template call site object, like { raw: 'string' }.
+- `...substitutions` : Contains substitution values.
+- `templateString` : A template string, optionally with substitutions (${...}).
+
+In the resultant string, \ and t are separate raw characters, not the one escape sequence character \t. The same is true with the Unicode escape sequence.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var str = "bc";
+console.log(String.raw`\ta${str}d\xE9`);  // "\tabcd\xE9", not "  abcdé"
+	{% endhighlight %}
+
   </div>
 </div>

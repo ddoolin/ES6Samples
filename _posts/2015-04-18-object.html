@@ -7,8 +7,145 @@ categories: extensions
 <div class="sample-area">
   <div class="copy">
     <h1>Object</h1>
-    <p>There's nothing here yet! Why not <a href="https://github.com/ddoolin/ES6Samples">contribute?</a></p>
+    {% markdown %}
+`ES6` adds a few additional static helpers to `Object`.
+	{% endmarkdown %}
   </div>
   <div class="code">
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Object.is(..)`** :
+This function returns a `boolean` value indicating whether the two parameters passed are equal or not. 
+
+`Syntax` : Object.is(*value1, value2*);
+
+- `value1` : The first value to compare.
+- `value2` : The second value to compare.
+
+It works similar to `===` and also overcomes the `quirky` behaviour defined by `===` operator. There are `two` cases where === acts a little strange.
+
+The `first` case is with `-0` and `+0`. For `===` operator these two values are same. `Object.is()` allows us to differentiate between the two.
+
+The `second` case is with `NaN`. The === treats NaN as not equal to NaN. This is not the case with `Object.is()`.
+
+You should continue to use `===` for strict equality comparisons; `Object.is(..)` shouldn’t be thought of as a replacement for the operator. However, in cases where you’re trying to strictly identify a `NaN` or `-0` value, Object.is(..) is now the preferred option. 
+
+`ES6` also adds a [Number.isNaN(..)](http://es6samples.com/extensions/number/) utility which may be a slightly more convenient test; you may prefer `Number.isNaN(x)` over `Object.is(x, NaN)`.
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+// first case
+console.log(+0 === -0);                         // true
+console.log(Object.is(+0, -0));                 // false
+
+// second case
+console.log(NaN === NaN)                        // false
+console.log(Object.is(NaN, NaN));               // true
+
+console.log(Object.is(3, 3));                   // true
+console.log(Object.is(3, "3"));                 // false
+
+var obj1 = {name: "John"};
+var obj2 = obj1;
+console.log(Object.is(obj1, obj2));             // true
+console.log(Object.is(obj1, {name: "John"}));   // false
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Object.getOwnPropertySymbols(..)`** :
+In `ES6`, the `key` of a property can be either a `string` or a `symbol`. 
+
+The Object.getOwnPropertySymbols(..) function returns an `array` of all `symbol` properties defined directly on the `object` and not on the `prototype` chain. 
+
+`Syntax` : Object.getOwnPropertySymbols(*obj*);
+
+- `obj` : The object whose symbol properties are to be returned.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var o = {
+    foo: 42,
+    [Symbol("bar")]: "hello world",
+    baz: true
+};
+console.log(Object.getOwnPropertySymbols(o));   // [Symbol(bar)]
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Object.setPrototypeOf(..)`** :
+This method sets the prototype of an object to another object for the purpose of behaviour delegation.
+
+`Syntax` : Object.setPrototypeOf(*obj, prototype*);
+
+- `obj` : The object whose prototype is to be set.
+- `prototype` : The object's new prototype (an object or null).
+
+Even before `ECMAScript 5` was finished, several JavaScript engines already implemented a custom property called `__proto__` that could be used to both get and set the prototype of an object. Effectively, \_\_proto\_\_ was an early precursor to both `Object.getPrototypeOf()` and `Object.setPrototypeOf()`. It was unrealistic to expect all of the JavaScript engines to remove this property, so `ECMAScript 6` formalized the behavior of \_\_proto\_\_. In `ECMAScript 6` engines, Object.prototype.\_\_proto\_\_ is defined as an accessor property whose get method calls Object.getPrototypeOf() and whose set method calls Object.setPrototypeOf().
+
+Normally, the `prototype` of an object is specified at the time of its creation, either by using a `constructor` or via `Object.create()`. Prior to `ECMAScript 6`, there was no standard way to change an object’s prototype after it had already been created. In a way, `Object.setPrototypeOf()` changes one of the biggest assumptions about objects in JavaScript to this point, which is that an object’s prototype remains unchanged after creation.
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var obj1 = {
+	test() { console.log("test");} 
+};
+var obj2 = {};
+Object.setPrototypeOf(obj2, obj1);
+obj2.test();   // test
+	{% endhighlight %}
+  </div>
+</div>
+
+<div class="sample-area">
+  <div class="copy">
+    {% markdown %}
+**`Object.assign(..)`** :
+This method is used to `copy` the values of all `enumerable` own properties from one or more source objects to a target object. Symbols, non-enumerable properties, and non-owned properties are all excluded from the assignment. It will `return` the target object.
+
+`Syntax` : Object.assign(*target, ...sources*);
+
+- `target` : The target object.
+- `sources` : The source object(s).
+
+Nearly every general purpose `framework` or `library` in Javascript has some form of function to take properties from one object and copy them onto another object. In `jquery` and `underscore`, we have an `extend()` function for this. This capability has been added to `ES6` using the `Object.assign(..)` function. In many scenarios and other languages this functionality is often defined as `mixins`.
+
+
+	{% endmarkdown %}
+  </div>
+  <div class="code">
+    {% highlight javascript linenos %}
+var o1 = {a: 1};
+// define non-enumerable property on o1
+Object.defineProperty(o1, "b", {
+    value: 6,
+    enumerable: false
+});
+
+var o2 = {[Symbol('foo')]: 2};
+
+var obj = Object.assign({}, o1, o2);
+console.log(obj);   // {a: 1}
+
+obj.a = 5;
+console.log(obj);   // {a: 5}
+console.log(o1);    // {a: 1, b: 6}
+	{% endhighlight %}
   </div>
 </div>
